@@ -31,7 +31,7 @@ class User:
         """
         self.login = login
         self.password = password
-        self.vault = VaultItem
+        self.vault = []
 
     def __str__(self) -> str:
         """
@@ -40,7 +40,7 @@ class User:
         """
         return self.login
 
-    def change_user(self, new_login : str , new_password : str)->bool:
+    def change_data_user(self, new_login : str , new_password : str)->None:
         """
         Modifie les données de User
         :return: bool
