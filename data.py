@@ -20,8 +20,6 @@ class VaultItem:
         return self.name
 
 
-
-
 class User:
     """class data user"""
 
@@ -50,23 +48,25 @@ class User:
         self.login = new_login
         self.password = new_password
 
-    def add_data_in_vault(self,name : str , login : str , password : str)-> None:
+    def add_data_vault(self, name: str, login: str, password: str) -> None:
         """
         Methode qui ajoute des données dans vault via la class VaultItem
         :param name:
         :param login:
         :param password:
         """
-        self.vault = VaultItem(name,login,password)
+        self.vault.append(VaultItem(name, login, password))
 
-    def remove_data_vault(self,item_index : int)->None:
+    def remove_data_vault(self, item_index: int) -> None:
         """
         Methode qui permet de supprimer un élément de Vault via le numéro d'index
         :param item_index:
         """
         del self.vault[item_index]
 
-    def change_data_vaultitem(self,item_index : int ,name: str, login: str, password: str) -> None:
+    def change_data_vault(
+        self, item_index: int, name: str, login: str, password: str
+    ) -> None:
         """
         Supprime un élément de la liste via le numéro d'index et créer un nouvel élément
         :param item_index:
@@ -74,5 +74,13 @@ class User:
         :param login:
         :param password:
         """
-        User.remove_data_vault(self,item_index)
-        User.add_data_in_vault(self,name,login,password)
+        User.remove_data_vault(self, item_index)
+        User.add_data_vault(self, name, login, password)
+
+    def search_data_vault(self, item_index: int) -> VaultItem:
+        """
+        Méthode qui permet de récupérer un object (VaultItem) dans Vault via l'index
+        :param item_index:
+        :return: object : VaultItem
+        """
+        return self.vault[item_index]
