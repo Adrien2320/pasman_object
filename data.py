@@ -39,3 +39,11 @@ class User:
         :return: string
         """
         return self.login
+
+    def change_user(self, new_login : str , new_password : str)->bool:
+        """
+        Modifie les données de User
+        :return: bool
+        """
+        self.login = new_login
+        self.password =new_password
