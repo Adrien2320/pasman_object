@@ -19,6 +19,17 @@ class VaultItem:
         """
         return self.name
 
+    def change_data_vaultitem(self, name: str, login: str, password: str) -> None:
+        """
+        Modifier les données de VaultItem
+        :param name:
+        :param login:
+        :param password:
+        """
+        self.name = name
+        self.login = login
+        self.password = password
+
 
 class User:
     """class data user"""
@@ -40,10 +51,10 @@ class User:
         """
         return self.login
 
-    def change_data_user(self, new_login : str , new_password : str)->None:
+    def change_data_user(self, new_login: str, new_password: str) -> None:
         """
         Modifie les données de User
         :return: bool
         """
         self.login = new_login
-        self.password =new_password
+        self.password = new_password
