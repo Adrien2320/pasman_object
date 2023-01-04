@@ -58,3 +58,12 @@ class User:
         """
         self.login = new_login
         self.password = new_password
+
+    def add_data_in_vault(self,name : str , login : str , password : str)-> None:
+        """
+        Methode qui ajoute des données dans vault via la class VaultItem
+        :param name:
+        :param login:
+        :param password:
+        """
+        self.vault = VaultItem(name,login,password)
