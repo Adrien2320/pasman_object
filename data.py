@@ -19,16 +19,7 @@ class VaultItem:
         """
         return self.name
 
-    def change_data_vaultitem(self, name: str, login: str, password: str) -> None:
-        """
-        Modifier les données de VaultItem
-        :param name:
-        :param login:
-        :param password:
-        """
-        self.name = name
-        self.login = login
-        self.password = password
+
 
 
 class User:
@@ -67,3 +58,21 @@ class User:
         :param password:
         """
         self.vault = VaultItem(name,login,password)
+
+    def remove_data_vault(self,item_index : int)->None:
+        """
+        Methode qui permet de supprimer un élément de Vault via le numéro d'index
+        :param item_index:
+        """
+        del self.vault[item_index]
+
+    def change_data_vaultitem(self,item_index : int ,name: str, login: str, password: str) -> None:
+        """
+        Supprime un élément de la liste via le numéro d'index et créer un nouvel élément
+        :param item_index:
+        :param name:
+        :param login:
+        :param password:
+        """
+        User.remove_data_vault(self,item_index)
+        User.add_data_in_vault(self,name,login,password)
