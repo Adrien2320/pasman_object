@@ -1,5 +1,11 @@
+import metier
 def show_main_menu() -> None:
     """affiche le principale de l'application"""
+
+    # type and assign
+    answer : tuple
+    login : str
+    password : str
 
     # initiate the show of main menu.
     print("enregistrement de mots de passe".center(100, "_"),
@@ -16,9 +22,14 @@ def show_main_menu() -> None:
             exit()
             print("Au revoir")
         case 1:
+            pass
             # todo function connexion
         case 2:
-            # todo function create new user()
+            answer = request_name_and_password()
+            login = answer[0]
+            password = answer[1]
+            metier.create_new_user(login,password)
+            # todo interface choix entre menu user ou menu coffre
         case _:
             print("Le nombre entré n'est pas bon, veuillez entré un nombre compris entre 0 et 2.")
             show_main_menu()
@@ -33,3 +44,12 @@ def number_by_user() -> int:
         prompt = input("choix:")
     # return the select number by user.
     return int(prompt)
+
+def request_name_and_password()->tuple:
+    """Demande à l'user un nom et un mot de passe et return un tuple (login,password)"""
+    # initiate show
+    print("formulaire demande pseudo et mot de passe".center(100,"-"))
+    # type and assign
+    login : str = input("pseudo:")
+    password : str = input("mot de passe:")
+    return login,password
