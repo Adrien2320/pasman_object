@@ -34,10 +34,10 @@ def create_new_user(login: str, password: str) -> None:
     else:
         list_user.append(user)
         storage.record_file_data(list_user)
-        interface.show_access_menu()
+        interface.show_access_menu(user)
 
 
-def connection_user(login, password) -> data.User:
+def connection_user(login : str, password :str) -> data.User:
     """Function qui permet de connecter l'user à son compte"""
     # type and assign
     list_user = storage.recover_file_data()
@@ -54,30 +54,48 @@ def connection_user(login, password) -> data.User:
     interface.show_main_menu()
 
 
-def change_data_user(item_index:int)->None:
+def search_index_user(user:data.User)->int:
+    """cherche l'index de l'user dans liste du fichier ("register.txt")"""
+    # type and assign
+    list_user : list = storage.recover_file_data()
+    i : int = 0
+    test_user : data.User
+    #
+    for i in range(len(list_user)):
+        test_user = list_user[i]
+        if test_user.login == user.login:
+            return i
+            exit()
+
+
+
+
+def change_data_user(user : data.User)->None:
     """Modifie les données de l'utilisateur"""
     # type and assign
+    item_index : int = search_index_user(user)
     old_list : list = storage.recover_file_data()
     new_list : list = old_list
-    user : data.User = old_list[item_index]
+    data_user : data.User = old_list[item_index]
     login : str
     password : str
     # supprimer l'ancien utilisateur de ma liste
     del new_list[item_index]
     # initiate show
     print("modification données utilisateur".center(100,"-"),
-          "\n attention si vous ne voulez pas modifier cette ne pas, laisser là vide faite enter".center(100,"!"))
-    login = input("pseudo:") or user.login
-    password = input("mot de passe:") or user.password
+          "\n !!! attention si vous ne voulez pas modifier cette ne pas, laisser là vide faite enter !!!")
+    # assign login and password
+    login = input("pseudo:") or data_user.login
+    password = input("mot de passe:") or data_user.password
     # création du nouvel utilisateur
-    user.change_data_user(login,password)
+    data_user.change_data_user(login,password)
     # ajout du nouvel utilisateur dans la liste
-    new_list.append(user)
+    new_list.append(data_user)
     # confirmation pour la modification
     if input("Confirmation pour la modification, oui ou non:") == "oui":
         storage.record_file_data(new_list)
         print("Les données ont bien été modifié!")
-        interface.show_user_menu()
+        interface.show_user_menu(user)
     else:
         print("Les données non pas été modifié!")
-        interface.show_user_menu()
+        interface.show_user_menu(user)
