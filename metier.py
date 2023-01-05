@@ -34,7 +34,7 @@ def create_new_user(login: str, password: str) -> None:
     else:
         list_user.append(user)
         storage.record_file_data(list_user)
-        interface.show_access_menu(user)
+        interface.show_access_menu()
 
 
 def connection_user(login, password) -> data.User:
@@ -52,3 +52,32 @@ def connection_user(login, password) -> data.User:
 
     print("Les données que vous avez entré sont incorrect, veuillez réessayer!")
     interface.show_main_menu()
+
+
+def change_data_user(item_index:int)->None:
+    """Modifie les données de l'utilisateur"""
+    # type and assign
+    old_list : list = storage.recover_file_data()
+    new_list : list = old_list
+    user : data.User = old_list[item_index]
+    login : str
+    password : str
+    # supprimer l'ancien utilisateur de ma liste
+    del new_list[item_index]
+    # initiate show
+    print("modification données utilisateur".center(100,"-"),
+          "\n attention si vous ne voulez pas modifier cette ne pas, laisser là vide faite enter".center(100,"!"))
+    login = input("pseudo:") or user.login
+    password = input("mot de passe:") or user.password
+    # création du nouvel utilisateur
+    user.change_data_user(login,password)
+    # ajout du nouvel utilisateur dans la liste
+    new_list.append(user)
+    # confirmation pour la modification
+    if input("Confirmation pour la modification, oui ou non:") == "oui":
+        storage.record_file_data(new_list)
+        print("Les données ont bien été modifié!")
+        interface.show_user_menu()
+    else:
+        print("Les données non pas été modifié!")
+        interface.show_user_menu()

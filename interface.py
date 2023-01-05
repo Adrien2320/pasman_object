@@ -1,5 +1,6 @@
 import data
 import metier
+import storage
 
 
 def show_main_menu() -> None:
@@ -27,7 +28,7 @@ def show_main_menu() -> None:
             login = answer[0]
             password = answer[1]
             user = metier.connection_user(login, password)
-            show_access_menu(user)
+            show_access_menu()
         case 2:
             answer = request_name_and_password()
             login = answer[0]
@@ -61,7 +62,49 @@ def request_name_and_password() -> tuple:
     return login, password
 
 
-def show_access_menu(user: data.User)->None:
+def show_file_data()->int:
+    """Affiche la liste du fichier ("register.txt")"""
+    # type and assign
+    list_user = storage.recover_file_data()
+    number : int
+    #
+    for i in range(len(list_user)):
+        print(f"{i+1}.{list_user[i]}")
+
+    number = number_by_user()
+    # check si le nombre entré est exist dans la liste
+    while number < 0 or number > len(list_user):
+        print(f"le nombre choisi n'est pas compris entre 0 et {len(list_user)}, veuillez choisir un autre chiffre!")
+        number =number_by_user()
+
+    return number-1
+
+def show_user_menu():
+    """ Affiche le menu utilisateur"""
+    # type and assign
+    item_index : int
+    # initiate the show of main menu.
+    print(
+        "Menu Access".center(100, "_"),
+        "\n" "\n1. Modification des données" "\n2. Supprimer mon compte" "\n" "\n0. Revenir au menu precedent",
+    )
+    # check if user is selected a good button and start the menu selected.
+    match number_by_user():
+        case 0:
+            show_access_menu()
+        case 1:
+            item_index = show_file_data()
+            metier.change_data_user(item_index)
+        case 2:
+            pass
+            # todo supprimer le compte
+        case _:
+            print(
+                "Le nombre entré n'est pas bon, veuillez entré un nombre compris entre 0 et 2."
+                )
+            show_user_menu()
+
+def show_access_menu()->None:
     """ Affiche le menu pour choisir entre modifier les données user ou coffre"""
     # initiate the show of main menu.
     print(
@@ -75,7 +118,7 @@ def show_access_menu(user: data.User)->None:
             show_main_menu()
         case 1:
             pass
-            #todo menu utilisateur
+            show_user_menu()
         case 2:
             pass
             # todo menu coffre
