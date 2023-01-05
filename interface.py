@@ -1,6 +1,5 @@
 import data
 import metier
-import storage
 
 
 def show_main_menu() -> None:
@@ -21,8 +20,8 @@ def show_main_menu() -> None:
     # check if user is selected a good button and start the menu selected.
     match number_by_user():
         case 0:
-            exit()
             print("Au revoir")
+            exit()
         case 1:
             answer = request_name_and_password()
             login = answer[0]
@@ -82,13 +81,13 @@ def show_user_menu(user: data.User):
         case 1:
             metier.change_data_user(user)
         case 2:
-            pass
-            # todo supprimer le compte
+            metier.remove_user(user)
+            show_main_menu()
         case _:
             print(
                 "Le nombre entré n'est pas bon, veuillez entré un nombre compris entre 0 et 2."
             )
-            show_user_menu()
+            show_user_menu(user)
 
 
 def show_access_menu(user: data.User) -> None:
@@ -117,4 +116,4 @@ def show_access_menu(user: data.User) -> None:
             print(
                 "Le nombre entré n'est pas bon, veuillez entré un nombre compris entre 0 et 2."
             )
-            show_access_menu()
+            show_access_menu(user)

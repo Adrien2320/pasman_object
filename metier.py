@@ -99,3 +99,20 @@ def change_data_user(user: data.User) -> None:
     else:
         print("Les données non pas été modifié!")
         interface.show_user_menu(user)
+
+
+def remove_user(user: data.User) -> None:
+    """Supprime l'utilisateur du fichier ("register.txt")"""
+
+    # type and assign
+    number: int = search_index_user(user)
+    old_user_list: list = storage.recover_file_data()
+    new_user_list: list = old_user_list
+    # supprime l'utilisateur de la liste
+    del new_user_list[number]
+    # confirmation pour la modification
+    if input("Confirmation pour la modification, oui ou non:") == "oui":
+        storage.record_file_data(new_user_list)
+        print("Les données ont bien été modifié!")
+    else:
+        print("Les données non pas été modifié!")
