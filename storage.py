@@ -18,9 +18,9 @@ def recover_file_data() -> list:
         return []
 
 
-def record_file_data(list_user:list)->None:
-    """ Enregistre la liste dans le fichier ("register.txt")"""
+def record_file_data(list_user: list) -> None:
+    """Enregistre la liste dans le fichier ("register.txt")"""
     # enregistre les données
-    file = open("register.txt","wb")
-    pickle.dump(list_user,file)
+    file = open("register.txt", "wb")
+    pickle.dump(list_user, file)
     file.close()

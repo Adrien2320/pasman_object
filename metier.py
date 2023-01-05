@@ -34,7 +34,7 @@ def create_new_user(login: str, password: str) -> None:
     else:
         list_user.append(user)
         storage.record_file_data(list_user)
-        # todo interface choix entre menu user ou menu coffre
+        interface.show_access_menu(user)
 
 
 def connection_user(login, password) -> data.User:
