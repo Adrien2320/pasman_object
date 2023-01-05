@@ -37,7 +37,7 @@ def create_new_user(login: str, password: str) -> None:
         interface.show_access_menu(user)
 
 
-def connection_user(login : str, password :str) -> data.User:
+def connection_user(login: str, password: str) -> data.User:
     """Function qui permet de connecter l'user à son compte"""
     # type and assign
     list_user = storage.recover_file_data()
@@ -54,12 +54,12 @@ def connection_user(login : str, password :str) -> data.User:
     interface.show_main_menu()
 
 
-def search_index_user(user:data.User)->int:
+def search_index_user(user: data.User) -> int:
     """cherche l'index de l'user dans liste du fichier ("register.txt")"""
     # type and assign
-    list_user : list = storage.recover_file_data()
-    i : int = 0
-    test_user : data.User
+    list_user: list = storage.recover_file_data()
+    i: int = 0
+    test_user: data.User
     #
     for i in range(len(list_user)):
         test_user = list_user[i]
@@ -68,27 +68,27 @@ def search_index_user(user:data.User)->int:
             exit()
 
 
-
-
-def change_data_user(user : data.User)->None:
+def change_data_user(user: data.User) -> None:
     """Modifie les données de l'utilisateur"""
     # type and assign
-    item_index : int = search_index_user(user)
-    old_list : list = storage.recover_file_data()
-    new_list : list = old_list
-    data_user : data.User = old_list[item_index]
-    login : str
-    password : str
+    item_index: int = search_index_user(user)
+    old_list: list = storage.recover_file_data()
+    new_list: list = old_list
+    data_user: data.User = old_list[item_index]
+    login: str
+    password: str
     # supprimer l'ancien utilisateur de ma liste
     del new_list[item_index]
     # initiate show
-    print("modification données utilisateur".center(100,"-"),
-          "\n !!! attention si vous ne voulez pas modifier cette ne pas, laisser là vide faite enter !!!")
+    print(
+        "modification données utilisateur".center(100, "-"),
+        "\n !!! attention si vous ne voulez pas modifier cette donnée, laisser là vide et appuyer sur ENTER !!!",
+    )
     # assign login and password
     login = input("pseudo:") or data_user.login
     password = input("mot de passe:") or data_user.password
     # création du nouvel utilisateur
-    data_user.change_data_user(login,password)
+    data_user.change_data_user(login, password)
     # ajout du nouvel utilisateur dans la liste
     new_list.append(data_user)
     # confirmation pour la modification

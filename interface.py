@@ -62,16 +62,18 @@ def request_name_and_password() -> tuple:
     return login, password
 
 
-
-
-def show_user_menu(user : data.User):
-    """ Affiche le menu utilisateur"""
+def show_user_menu(user: data.User):
+    """Affiche le menu utilisateur"""
     # type and assign
-    item_index : int
+    item_index: int
     # initiate the show of main menu.
     print(
         "Menu Access".center(100, "_"),
-        "\n" "\n1. Modification des données" "\n2. Supprimer mon compte" "\n" "\n0. Revenir au menu precedent",
+        "\n"
+        "\n1. Modification des données"
+        "\n2. Supprimer mon compte"
+        "\n"
+        "\n0. Revenir au menu precedent",
     )
     # check if user is selected a good button and start the menu selected.
     match number_by_user():
@@ -85,15 +87,20 @@ def show_user_menu(user : data.User):
         case _:
             print(
                 "Le nombre entré n'est pas bon, veuillez entré un nombre compris entre 0 et 2."
-                )
+            )
             show_user_menu()
 
-def show_access_menu(user:data.User)->None:
-    """ Affiche le menu pour choisir entre modifier les données user ou coffre"""
+
+def show_access_menu(user: data.User) -> None:
+    """Affiche le menu pour choisir entre modifier les données user ou coffre"""
     # initiate the show of main menu.
     print(
         "Menu Access".center(100, "_"),
-        "\n" "\n1. Accéder au données utilisateur" "\n2. Accéder au coffre" "\n" "\n0. Revenir au menu principal",
+        "\n"
+        "\n1. Accéder au données utilisateur"
+        "\n2. Accéder au coffre"
+        "\n"
+        "\n0. Revenir au menu principal",
     )
 
     # check if user is selected a good button and start the menu selected.
