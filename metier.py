@@ -152,7 +152,7 @@ def add_item_in_vault(user: data.User) -> None:
     data_user.add_data_vault(name, login, password)
     # ajout donné de l'utilisateur dans la liste
     new_list.append(data_user)
-    # confirmation pour la modification
+    # confirmation pour l'enregistrement
     if input("Confirmation pour l'enregistrement, oui ou non:") == "oui":
         storage.record_file_data(new_list)
         print("Les données ont bien été enregistré!")
@@ -160,3 +160,40 @@ def add_item_in_vault(user: data.User) -> None:
     else:
         print("Les données non pas été enregistré!")
         interface.show_vault_menu(user)
+
+
+def change_data_vault(user: data.User):
+    """Modifier les données d'un élément du coffre"""
+    # type and assign
+    new_list: list = storage.recover_file_data()
+    item_vault_index: int
+    user_index : int = search_index_user(user)
+    data_user : data.User = new_list[user_index]
+    list_vault : list = data_user.vault
+    # affiche liste des éléments dans le coffre et récupère la réponse de l'utilisateur
+    item_vault_index = interface.show_vault_item(user)
+    vault : data.VaultItem = list_vault[item_vault_index]
+    # demande les nouvelles données
+    print(
+        "modification données de l'élément".center(100, "-"),
+        "\n !!! attention si vous ne voulez pas modifier cette donnée, laisser là vide et appuyer sur ENTER !!!",
+    )
+    name : str = input("nom:") or vault.name
+    login : str = input("pseudo:") or vault.login
+    password : str = input("mot de passe:") or vault.password
+    # ajout le nouvel élément dans la liste
+    data_user.change_data_vault(item_vault_index,name,login,password)
+    # supprime les données de l'utilisateur
+    del new_list[user_index]
+    # ajout les nouvelles données dans le fichier
+    new_list.append(data_user)
+    # confirmation pour la modification
+    if input("Confirmation pour la modification, oui ou non:") == "oui":
+        storage.record_file_data(new_list)
+        print("Les données ont bien été modifié!")
+        interface.show_vault_menu(user)
+    else:
+        print("Les données non pas été modifié!")
+        interface.show_vault_menu(user)
+
+

@@ -1,5 +1,6 @@
 import data
 import metier
+import storage
 
 
 def show_main_menu() -> None:
@@ -110,8 +111,7 @@ def show_vault_menu(user: data.User) -> None:
         case 1:
             metier.add_item_in_vault(user)
         case 2:
-            pass
-            # todo modifie un élément dans le coffre
+            metier.change_data_vault(user)
         case 3:
             pass
             # todo supprime un élément dans le coffre
@@ -161,3 +161,24 @@ def request_name_login_and_password() -> tuple:
     login: str = input("pseudo:")
     password: str = input("mot de passe:")
     return name, login, password
+
+
+def show_vault_item(user:data.User)->int:
+    """Affiche les éléments du coffre et demande à l'utilisateur de choisir"""
+    # type and assign
+    user_list : list =storage.recover_file_data()
+    data_user : data.User = user_list[metier.search_index_user(user)]
+    list_vault : list = data_user.vault
+    vault : data.VaultItem
+    number : int
+    # boucle qui affiche chaque élément du coffre
+    for i in range(len(list_vault)):
+        vault = list_vault[i]
+        print(f"{i+1}. {vault.name}")
+    # demande un nombre à l'utilisateur jusqu'à qu'il a choisi un élément de la liste
+    number = number_by_user()
+    while number < 0 or number > len(list_vault):
+        print(f"le nombre choisi n'est pas compris entre 0 et {len(list_vault)}, veuillez choisir un autre chiffre!")
+        number = number_by_user()
+
+    return number-1
