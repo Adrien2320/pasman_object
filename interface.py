@@ -14,7 +14,7 @@ def show_main_menu() -> None:
     # initiate the show of main menu.
     print(
         "Passman".center(100, "_"),
-        "\n" "\n1. connexion" "\n2. creation nouvelle utilisateur" "\n" "\n0. quitter",
+        "\n" "\n1. connexion" "\n2. nouvelle utilisateur" "\n" "\n0. quitter",
     )
 
     # check if user is selected a good button and start the menu selected.
@@ -23,13 +23,13 @@ def show_main_menu() -> None:
             print("Au revoir")
             exit()
         case 1:
-            answer = request_name_and_password()
+            answer = request_login_and_password()
             login = answer[0]
             password = answer[1]
             user = metier.connection_user(login, password)
             show_access_menu(user)
         case 2:
-            answer = request_name_and_password()
+            answer = request_login_and_password()
             login = answer[0]
             password = answer[1]
             metier.create_new_user(login, password)
@@ -51,7 +51,7 @@ def number_by_user() -> int:
     return int(prompt)
 
 
-def request_name_and_password() -> tuple:
+def request_login_and_password() -> tuple:
     """Demande à l'user un nom et un mot de passe et return un tuple (login,password)"""
     # initiate show
     print("formulaire demande pseudo et mot de passe".center(100, "-"))
@@ -61,7 +61,7 @@ def request_name_and_password() -> tuple:
     return login, password
 
 
-def show_user_menu(user: data.User):
+def show_user_menu(user: data.User) -> None:
     """Affiche le menu utilisateur"""
     # type and assign
     item_index: int
@@ -90,8 +90,8 @@ def show_user_menu(user: data.User):
             show_user_menu(user)
 
 
-def show_vault_menu(user:data.User):
-    """ Affiche le menu du coffre"""
+def show_vault_menu(user: data.User) -> None:
+    """Affiche le menu du coffre"""
     # initiate the show of main menu.
     print(
         "Menu Coffre".center(100, "_"),
@@ -106,10 +106,9 @@ def show_vault_menu(user:data.User):
     # check if user is selected a good button and start the menu selected.
     match number_by_user():
         case 0:
-            show_access_menu()
+            show_access_menu(user)
         case 1:
-            pass
-            # todo ajouté un élément dans le coffre
+            metier.add_item_in_vault(user)
         case 2:
             pass
             # todo modifie un élément dans le coffre
@@ -151,3 +150,14 @@ def show_access_menu(user: data.User) -> None:
                 "Le nombre entré n'est pas bon, veuillez entré un nombre compris entre 0 et 2."
             )
             show_access_menu(user)
+
+
+def request_name_login_and_password() -> tuple:
+    """Demande à l'utilisateur un nom, un pseudo et un mot de passe et le return sous un tuple (name,login,password)"""
+    # initiate show
+    print("formulaire demande nom,pseudo et mot de passe".center(100, "-"))
+    # type and assign
+    name: str = input("nom:")
+    login: str = input("pseudo:")
+    password: str = input("mot de passe:")
+    return name, login, password

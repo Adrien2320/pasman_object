@@ -7,7 +7,6 @@ def check_user_exist(user: data.User) -> bool:
     """Vérifie si l'utilisateur n'existe pas"""
     # type and assign
     list_user: list = storage.recover_file_data()
-    i: int = 0
     # vérifie si le login de l'utilisateur existe déjà
     for i in range(len(list_user)):
         login: data.User = list_user[i]
@@ -41,7 +40,6 @@ def connection_user(login: str, password: str) -> data.User:
     """Function qui permet de connecter l'user à son compte"""
     # type and assign
     list_user = storage.recover_file_data()
-    i: int = 0
     user_test: data.User
     # check si les données entrées sont présentes dans le fichier "register.txt" ou non
     for i in range(len(list_user)):
@@ -58,7 +56,6 @@ def search_index_user(user: data.User) -> int:
     """cherche l'index de l'user dans liste du fichier ("register.txt")"""
     # type and assign
     list_user: list = storage.recover_file_data()
-    i: int = 0
     test_user: data.User
     #
     for i in range(len(list_user)):
@@ -116,3 +113,32 @@ def remove_user(user: data.User) -> None:
         print("Les données ont bien été modifié!")
     else:
         print("Les données non pas été modifié!")
+
+
+def add_item_in_vault(user: data.User) -> None:
+    """Ajout un élément dans le coffre"""
+    # type and assign
+    old_list: list = storage.recover_file_data()
+    new_list: list = old_list
+    answer: tuple = interface.request_name_login_and_password()
+    name: str = answer[0]
+    login: str = answer[1]
+    password: str = answer[2]
+    data_user: data.User
+    number: int = search_index_user(user)
+    # récupère les données de l'utilisateur
+    data_user = new_list[number]
+    # supprimer les données de l'utilisateur
+    del new_list[number]
+    # ajouté les données dans le coffre de l'utilisateur
+    data_user.add_data_vault(name, login, password)
+    # ajout donné de l'utilisateur dans la liste
+    new_list.append(data_user)
+    # confirmation pour la modification
+    if input("Confirmation pour la modification, oui ou non:") == "oui":
+        storage.record_file_data(new_list)
+        print("Les données ont bien été modifié!")
+        interface.show_vault_menu(user)
+    else:
+        print("Les données non pas été modifié!")
+        interface.show_vault_menu(user)
