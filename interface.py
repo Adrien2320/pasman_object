@@ -67,7 +67,7 @@ def show_user_menu(user: data.User):
     item_index: int
     # initiate the show of main menu.
     print(
-        "Menu Access".center(100, "_"),
+        "Menu utilisateur".center(100, "_"),
         "\n"
         "\n1. Modification des données"
         "\n2. Supprimer mon compte"
@@ -90,6 +90,42 @@ def show_user_menu(user: data.User):
             show_user_menu(user)
 
 
+def show_vault_menu(user:data.User):
+    """ Affiche le menu du coffre"""
+    # initiate the show of main menu.
+    print(
+        "Menu Coffre".center(100, "_"),
+        "\n"
+        "\n1. ajouter"
+        "\n2. modifier"
+        "\n3. supprimer"
+        "\n4. chercher"
+        "\n"
+        "\n0. Revenir au menu précédent",
+    )
+    # check if user is selected a good button and start the menu selected.
+    match number_by_user():
+        case 0:
+            show_access_menu()
+        case 1:
+            pass
+            # todo ajouté un élément dans le coffre
+        case 2:
+            pass
+            # todo modifie un élément dans le coffre
+        case 3:
+            pass
+            # todo supprime un élément dans le coffre
+        case 4:
+            pass
+            # todo cherche un élément dans le coffre
+        case _:
+            print(
+                "Le nombre entré n'est pas bon, veuillez entré un nombre compris entre 0 et 4."
+            )
+            show_vault_menu(user)
+
+
 def show_access_menu(user: data.User) -> None:
     """Affiche le menu pour choisir entre modifier les données user ou coffre"""
     # initiate the show of main menu.
@@ -107,11 +143,9 @@ def show_access_menu(user: data.User) -> None:
         case 0:
             show_main_menu()
         case 1:
-            pass
             show_user_menu(user)
         case 2:
-            pass
-            # todo menu coffre
+            show_vault_menu(user)
         case _:
             print(
                 "Le nombre entré n'est pas bon, veuillez entré un nombre compris entre 0 et 2."
