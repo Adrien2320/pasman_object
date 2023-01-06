@@ -2,6 +2,20 @@ import data
 import interface
 import storage
 
+def check_if_element_exist(name : str, item_index : int )->bool:
+    """Vérifie si l'élément exist déjà dans le vault"""
+    # type and assign
+    data_vault : data.VaultItem
+    user_list : list = storage.recover_file_data()
+    data_user : data.User = user_list[item_index]
+    # boucle vérifie chaque donnée(name) dans la liste vault
+    for i in range(len(data_user.vault)):
+        data_vault = data_user.vault[i]
+        if data_vault.name == name:
+            return True
+            exit()
+        else:
+            return False
 
 def check_user_exist(user: data.User) -> bool:
     """Vérifie si l'utilisateur n'existe pas"""
@@ -130,15 +144,19 @@ def add_item_in_vault(user: data.User) -> None:
     data_user = new_list[number]
     # supprimer les données de l'utilisateur
     del new_list[number]
+    # vérifie si les données n'existe pas
+    if check_if_element_exist(name,number ):
+        print("L'élément exist déjà dans votre coffre")
+        interface.show_vault_menu(user)
     # ajouté les données dans le coffre de l'utilisateur
     data_user.add_data_vault(name, login, password)
     # ajout donné de l'utilisateur dans la liste
     new_list.append(data_user)
     # confirmation pour la modification
-    if input("Confirmation pour la modification, oui ou non:") == "oui":
+    if input("Confirmation pour l'enregistrement, oui ou non:") == "oui":
         storage.record_file_data(new_list)
-        print("Les données ont bien été modifié!")
+        print("Les données ont bien été enregistré!")
         interface.show_vault_menu(user)
     else:
-        print("Les données non pas été modifié!")
+        print("Les données non pas été enregistré!")
         interface.show_vault_menu(user)
