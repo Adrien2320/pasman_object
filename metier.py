@@ -2,12 +2,25 @@ import data
 import interface
 import storage
 
+def check_if_element_exist(name : str, item_index : int )->bool:
+    """Vérifie si l'élément exist déjà dans le vault"""
+    # type and assign
+    data_vault : data.VaultItem
+    user_list : list = storage.recover_file_data()
+    data_user : data.User = user_list[item_index]
+    # boucle vérifie chaque donnée(name) dans la liste vault
+    for i in range(len(data_user.vault)):
+        data_vault = data_user.vault[i]
+        if data_vault.name == name:
+            return True
+            exit()
+        else:
+            return False
 
 def check_user_exist(user: data.User) -> bool:
     """Vérifie si l'utilisateur n'existe pas"""
     # type and assign
     list_user: list = storage.recover_file_data()
-    i: int = 0
     # vérifie si le login de l'utilisateur existe déjà
     for i in range(len(list_user)):
         login: data.User = list_user[i]
@@ -41,7 +54,6 @@ def connection_user(login: str, password: str) -> data.User:
     """Function qui permet de connecter l'user à son compte"""
     # type and assign
     list_user = storage.recover_file_data()
-    i: int = 0
     user_test: data.User
     # check si les données entrées sont présentes dans le fichier "register.txt" ou non
     for i in range(len(list_user)):
@@ -58,7 +70,6 @@ def search_index_user(user: data.User) -> int:
     """cherche l'index de l'user dans liste du fichier ("register.txt")"""
     # type and assign
     list_user: list = storage.recover_file_data()
-    i: int = 0
     test_user: data.User
     #
     for i in range(len(list_user)):
@@ -116,3 +127,110 @@ def remove_user(user: data.User) -> None:
         print("Les données ont bien été modifié!")
     else:
         print("Les données non pas été modifié!")
+
+
+def add_item_in_vault(user: data.User) -> None:
+    """Ajout un élément dans le coffre"""
+    # type and assign
+    old_list: list = storage.recover_file_data()
+    new_list: list = old_list
+    answer: tuple = interface.request_name_login_and_password()
+    name: str = answer[0]
+    login: str = answer[1]
+    password: str = answer[2]
+    data_user: data.User
+    number: int = search_index_user(user)
+    # récupère les données de l'utilisateur
+    data_user = new_list[number]
+    # supprimer les données de l'utilisateur
+    del new_list[number]
+    # vérifie si les données n'existe pas
+    if check_if_element_exist(name,number ):
+        print("L'élément exist déjà dans votre coffre")
+        interface.show_vault_menu(user)
+    # ajouté les données dans le coffre de l'utilisateur
+    data_user.add_data_vault(name, login, password)
+    # ajout donné de l'utilisateur dans la liste
+    new_list.append(data_user)
+    # confirmation pour l'enregistrement
+    if input("Confirmation pour l'enregistrement, oui ou non:") == "oui":
+        storage.record_file_data(new_list)
+        print("Les données ont bien été enregistré!")
+        interface.show_vault_menu(user)
+    else:
+        print("Les données non pas été enregistré!")
+        interface.show_vault_menu(user)
+
+
+def change_data_vault(user: data.User):
+    """Modifier les données d'un élément du coffre"""
+    # type and assign
+    new_list: list = storage.recover_file_data()
+    item_vault_index: int
+    user_index : int = search_index_user(user)
+    data_user : data.User = new_list[user_index]
+    list_vault : list = data_user.vault
+    # affiche liste des éléments dans le coffre et récupère la réponse de l'utilisateur
+    item_vault_index = interface.show_vault_item(user)
+    vault : data.VaultItem = list_vault[item_vault_index]
+    # demande les nouvelles données
+    print(
+        "modification données de l'élément".center(100, "-"),
+        "\n !!! attention si vous ne voulez pas modifier cette donnée, laisser là vide et appuyer sur ENTER !!!",
+    )
+    name : str = input("nom:") or vault.name
+    login : str = input("pseudo:") or vault.login
+    password : str = input("mot de passe:") or vault.password
+    # ajout le nouvel élément dans la liste
+    data_user.change_data_vault(item_vault_index,name,login,password)
+    # supprime les données de l'utilisateur
+    del new_list[user_index]
+    # ajout les nouvelles données dans le fichier
+    new_list.append(data_user)
+    # confirmation pour la modification
+    if input("Confirmation pour la modification, oui ou non:") == "oui":
+        storage.record_file_data(new_list)
+        print("Les données ont bien été modifié!")
+        interface.show_vault_menu(user)
+    else:
+        print("Les données non pas été modifié!")
+        interface.show_vault_menu(user)
+
+
+def remove_data_vault(user: data.User)->None:
+    """ Supprime un élément du vault"""
+    # type and assign
+    new_list: list = storage.recover_file_data()
+    item_vault_index: int
+    user_index: int = search_index_user(user)
+    data_user: data.User = new_list[user_index]
+    # affiche liste des éléments dans le coffre et récupère la réponse de l'utilisateur
+    item_vault_index = interface.show_vault_item(user)
+    # supprime l'élément de vault
+    data_user.remove_data_vault(item_vault_index)
+    # confirmation pour la suppression de l'élément
+    if input("Confirmation pour la suppression, oui ou non:") == "oui":
+        storage.record_file_data(new_list)
+        print("Les données ont bien été supprimer!")
+        interface.show_vault_menu(user)
+    else:
+        print("Les données non pas été supprimer!")
+        interface.show_vault_menu(user)
+
+
+def search_item_vault_and_show(user:data.User)->None:
+    """Recherche un élément dans le vault et l'affiche à l'utilisateur"""
+    # type and assign
+    new_list: list = storage.recover_file_data()
+    item_vault_index: int
+    user_index: int = search_index_user(user)
+    data_user: data.User = new_list[user_index]
+    # affiche liste des éléments dans le coffre et récupère la réponse de l'utilisateur
+    item_vault_index = interface.show_vault_item(user)
+    # récupère l'élément à afficher
+    vault_item : data.VaultItem = data_user.search_data_vault(item_vault_index)
+    # affiche l'élément
+    print(f"Nom:{vault_item.name} Pseudo:{vault_item.login} Mot de passe:{vault_item.password} ")
+    # attend pour que l'utilisateur entre quelle chose pour qu'il quitte l'affichage
+    input("Revenir au menu du coffre (oui/non):")
+    interface.show_vault_menu(user)
