@@ -113,8 +113,7 @@ def show_vault_menu(user: data.User) -> None:
         case 2:
             metier.change_data_vault(user)
         case 3:
-            pass
-            # todo supprime un élément dans le coffre
+            metier.remove_data_vault(user)
         case 4:
             pass
             # todo cherche un élément dans le coffre

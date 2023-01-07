@@ -197,3 +197,22 @@ def change_data_vault(user: data.User):
         interface.show_vault_menu(user)
 
 
+def remove_data_vault(user: data.User):
+    """ Supprime un élément du vault"""
+    # type and assign
+    new_list: list = storage.recover_file_data()
+    item_vault_index: int
+    user_index: int = search_index_user(user)
+    data_user: data.User = new_list[user_index]
+    # affiche liste des éléments dans le coffre et récupère la réponse de l'utilisateur
+    item_vault_index = interface.show_vault_item(user)
+    # supprime l'élément de vault
+    data_user.remove_data_vault(item_vault_index)
+    # confirmation pour la suppression de l'élément
+    if input("Confirmation pour la suppression, oui ou non:") == "oui":
+        storage.record_file_data(new_list)
+        print("Les données ont bien été supprimer!")
+        interface.show_vault_menu(user)
+    else:
+        print("Les données non pas été supprimer!")
+        interface.show_vault_menu(user)
