@@ -197,7 +197,7 @@ def change_data_vault(user: data.User):
         interface.show_vault_menu(user)
 
 
-def remove_data_vault(user: data.User):
+def remove_data_vault(user: data.User)->None:
     """ Supprime un élément du vault"""
     # type and assign
     new_list: list = storage.recover_file_data()
@@ -216,3 +216,21 @@ def remove_data_vault(user: data.User):
     else:
         print("Les données non pas été supprimer!")
         interface.show_vault_menu(user)
+
+
+def search_item_vault_and_show(user:data.User)->None:
+    """Recherche un élément dans le vault et l'affiche à l'utilisateur"""
+    # type and assign
+    new_list: list = storage.recover_file_data()
+    item_vault_index: int
+    user_index: int = search_index_user(user)
+    data_user: data.User = new_list[user_index]
+    # affiche liste des éléments dans le coffre et récupère la réponse de l'utilisateur
+    item_vault_index = interface.show_vault_item(user)
+    # récupère l'élément à afficher
+    vault_item : data.VaultItem = data_user.search_data_vault(item_vault_index)
+    # affiche l'élément
+    print(f"Nom:{vault_item.name} Pseudo:{vault_item.login} Mot de passe:{vault_item.password} ")
+    # attend pour que l'utilisateur entre quelle chose pour qu'il quitte l'affichage
+    input("Revenir au menu du coffre (oui/non):")
+    interface.show_vault_menu(user)

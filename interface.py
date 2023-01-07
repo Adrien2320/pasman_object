@@ -115,8 +115,7 @@ def show_vault_menu(user: data.User) -> None:
         case 3:
             metier.remove_data_vault(user)
         case 4:
-            pass
-            # todo cherche un élément dans le coffre
+            metier.search_item_vault_and_show(user)
         case _:
             print(
                 "Le nombre entré n'est pas bon, veuillez entré un nombre compris entre 0 et 4."
